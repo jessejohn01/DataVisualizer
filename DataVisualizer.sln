@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28010.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataVisualizer", "WindowsFormsApp1\DataVisualizer.csproj", "{5A1806F3-6294-4AD3-8C5C-A11DDA960E81}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup1", "Setup1\Setup1.vdproj", "{F231D626-133C-42AF-AFC4-1602888D14C5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,8 @@ Global
 		{5A1806F3-6294-4AD3-8C5C-A11DDA960E81}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5A1806F3-6294-4AD3-8C5C-A11DDA960E81}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5A1806F3-6294-4AD3-8C5C-A11DDA960E81}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F231D626-133C-42AF-AFC4-1602888D14C5}.Debug|Any CPU.ActiveCfg = Debug
+		{F231D626-133C-42AF-AFC4-1602888D14C5}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
