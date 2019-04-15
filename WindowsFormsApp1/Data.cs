@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WindowsFormsApp1
+namespace er9PlotProgram
 {
     public class Data
     {
@@ -13,10 +13,10 @@ namespace WindowsFormsApp1
         public static List<double> Ax = new List<double>();
         public static List<double> Ay = new List<double>();
         public static List<double> Az = new List<double>();
-        public static List<int> T = new List<int>();
-        public static List<int> Gx = new List<int>();
-        public static List<int> Gy = new List<int>();
-        public static List<int> Gz = new List<int>();
+        public static List<double> T = new List<double>();
+        public static List<double> Gx = new List<double>();
+        public static List<double> Gy = new List<double>();
+        public static List<double> Gz = new List<double>();
 
         public static void printTime()
         {
