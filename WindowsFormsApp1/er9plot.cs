@@ -8,7 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
-
+using OxyPlot;
+using OxyPlot.Wpf;
 namespace WindowsFormsApp1
 {
     public partial class Er9plot : Form
@@ -39,18 +40,19 @@ namespace WindowsFormsApp1
 
         }
 
-        private void loadDataFromFile(String inFile)
+        private void loadDataFromFile(String inFile) // This function loads and parses the data from the CSV file. Uses the lists from the Data class.
         {
             using (var reader = new StreamReader(inFile))
             {
-                List<double> time = new List<double>();
+                /*List<double> time = new List<double>();
                 List<int> Ax = new List<int>();
                 List<int> Ay = new List<int>();
                 List<int> Az = new List<int>();
                 List<int> T = new List<int>();
                 List<int> Gx = new List<int>();
                 List<int> Gy = new List<int>();
-                List<int> Gz = new List<int>();
+                List<int> Gz = new List<int>(); */
+                
                 double tempDouble; // Dummy temp varibale
                 int tempInt; // Dummy temp variable 
                 while (!reader.EndOfStream)
@@ -61,35 +63,36 @@ namespace WindowsFormsApp1
 
                     if (Double.TryParse(values[0],out tempDouble) == true)
                     {
-                        time.Add((Convert.ToDouble(values[0])));
+                        Data.time.Add((Convert.ToDouble(values[0])));
                     }
-                    if (int.TryParse(values[1], out tempInt) == true)
+                    if (Double.TryParse(values[1], out tempDouble) == true)
                     {
-                        Ax.Add((Convert.ToInt32(values[1])));
+                        
+                        Data.Ax.Add(((Convert.ToDouble(values[1]) / 2046.0)));
                     }
-                    if (int.TryParse(values[2], out tempInt) == true)
+                    if (Double.TryParse(values[2], out tempDouble) == true)
                     {
-                        Ay.Add((Convert.ToInt32(values[2])));
+                        Data.Ay.Add(((Convert.ToDouble(values[2]) / 2046.0)));
                     }
-                    if (int.TryParse(values[3], out tempInt) == true)
+                    if (Double.TryParse(values[3], out tempDouble) == true)
                     {
-                        Az.Add((Convert.ToInt32(values[3])));
+                        Data.Az.Add(((Convert.ToDouble(values[3]) / 2046.0)));
                     }
                     if (int.TryParse(values[4], out tempInt) == true)
                     {
-                        T.Add((Convert.ToInt32(values[4])));
+                        Data.T.Add((Convert.ToInt32(values[4])));
                     }
                     if (int.TryParse(values[5], out tempInt) == true)
                     {
-                        Gx.Add((Convert.ToInt32(values[5])));
+                        Data.Gx.Add((Convert.ToInt32(values[5])));
                     }
                     if (int.TryParse(values[6], out tempInt) == true)
                     {
-                        Gy.Add((Convert.ToInt32(values[6])));
+                        Data.Gy.Add((Convert.ToInt32(values[6])));
                     }
                     if (int.TryParse(values[7], out tempInt) == true)
                     {
-                        Gz.Add((Convert.ToInt32(values[7])));
+                        Data.Gz.Add((Convert.ToInt32(values[7])));
                     }
 
                     } catch (Exception e) {
@@ -102,6 +105,29 @@ namespace WindowsFormsApp1
 
 
                 }
+                for(int i = 0; i< 10; i++)
+                {
+                    Console.WriteLine(Data.time[i]);
+                }
+
+
+                //Data.printTime(); 
+                List<double> timeScale = new List<double>();
+                for (int i = 0; i < Data.time.Count; i++)
+                {
+                      timeScale.Add((Data.time[i] - Data.time.Min()) /100);
+                }
+                accelChart.Series["Ax"].Points.DataBindXY(timeScale, Data.Ax);
+                accelChart.Series["Ay"].Points.DataBindXY(timeScale, Data.Ay);
+                accelChart.Series["Az"].Points.DataBindXY(timeScale, Data.Az);
+                accelChart.ChartAreas[0].RecalculateAxesScale();
+                accelChart.Update();
+
+                gyroChart.Series["Gx"].Points.DataBindXY(timeScale, Data.Gx);
+                gyroChart.Series["Gy"].Points.DataBindXY(timeScale, Data.Gy);
+                gyroChart.Series["Gz"].Points.DataBindXY(timeScale, Data.Gz);
+                gyroChart.ChartAreas[0].RecalculateAxesScale();
+                gyroChart.Update();
 
             }
         }
