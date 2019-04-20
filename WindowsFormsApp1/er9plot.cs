@@ -45,6 +45,15 @@ namespace er9PlotProgram
 
         private void loadDataFromFile(String inFile) // This function loads and parses the data from the CSV file. Uses the lists from the Data class.
         {
+            Data.time.Clear();
+            Data.Ax.Clear();
+            Data.Ay.Clear();
+            Data.Az.Clear();
+            Data.T.Clear();
+            Data.Gx.Clear();
+            Data.Gy.Clear();
+            Data.Gz.Clear();
+
             try
             {
                 using (var reader = new StreamReader(inFile))
@@ -72,7 +81,7 @@ namespace er9PlotProgram
                                 }
                                 else
                                 {
-                                    Data.Ax.Add(((-(Convert.ToDouble(values[1]) - 32767) / 2046.0)));
+                                    Data.Ax.Add((((Convert.ToDouble(values[1]) - 65534) / 2046.0)));
                                 }
                             }
                             if (Double.TryParse(values[2], out tempDouble) == true)
@@ -83,7 +92,7 @@ namespace er9PlotProgram
                                 }
                                 else
                                 {
-                                    Data.Ay.Add(((-(Convert.ToDouble(values[2]) - 32767) / 2046.0)));
+                                    Data.Ay.Add((((Convert.ToDouble(values[2]) - 65534) / 2046.0)));
                                 }
                             }
                             if (Double.TryParse(values[3], out tempDouble) == true)
@@ -94,7 +103,7 @@ namespace er9PlotProgram
                                 }
                                 else
                                 {
-                                    Data.Az.Add(((-(Convert.ToDouble(values[3]) - 32767) / 2046.0)));
+                                    Data.Az.Add((((Convert.ToDouble(values[3]) - 65534) / 2046.0)));
                                 }
                             }
                             if (Double.TryParse(values[4], out tempDouble) == true)
@@ -106,7 +115,7 @@ namespace er9PlotProgram
                                 }
                                 else
                                 {
-                                    Data.T.Add(((-(Convert.ToDouble(values[4]) - 32767) / 340.0 + 35.0)));
+                                    Data.T.Add((((Convert.ToDouble(values[4]) - 65534) / 340.0 + 35.0)));
                                 }
                             }
                             if (double.TryParse(values[5], out tempDouble) == true)
@@ -117,7 +126,7 @@ namespace er9PlotProgram
                                 }
                                 else
                                 {
-                                    Data.Gx.Add(((-(Convert.ToDouble(values[5]) - 32767) / 16.4)));
+                                    Data.Gx.Add((((Convert.ToDouble(values[5]) - 65534) / 16.4)));
                                 }
                             }
                             if (double.TryParse(values[6], out tempDouble) == true)
@@ -128,7 +137,7 @@ namespace er9PlotProgram
                                 }
                                 else
                                 {
-                                    Data.Gy.Add(((-(Convert.ToDouble(values[6]) - 32767) / 16.4)));
+                                    Data.Gy.Add((((Convert.ToDouble(values[6]) - 65534) / 16.4)));
                                 }
                             }
                             if (double.TryParse(values[7], out tempDouble) == true)
@@ -139,7 +148,7 @@ namespace er9PlotProgram
                                 }
                                 else
                                 {
-                                    Data.Gz.Add(((-(Convert.ToDouble(values[7]) - 32767) / 16.4))); //Sets to negative number
+                                    Data.Gz.Add((((Convert.ToDouble(values[7]) - 65534) / 16.4))); //Sets to negative number
                                 }
                             }
 
@@ -351,10 +360,15 @@ namespace er9PlotProgram
 
         private static string UnixTimeStampToDateTime(long unixTimeStamp)
         {
-            System.DateTime dtDateTime = new System.DateTime(1970, 1, 1, 0, 0, 0, 0, 0);
+            System.DateTime dtDateTime = new System.DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
             dtDateTime = dtDateTime.AddMilliseconds(unixTimeStamp);
-            String time = dtDateTime.ToString("MM/dd/yyyy hh:mm:ss.ffff");
+            String time = dtDateTime.ToString("MM/dd/yyyy hh:mm:ss:ffff");
             return time;
+        }
+
+        private string epoch2string(int epoch)
+        {
+            return new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds(epoch).ToShortDateString();
         }
 
 
